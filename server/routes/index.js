@@ -1,0 +1,19 @@
+import authRoutes from "./auth.routes.js";
+import userRoutes from "./user.routes.js";
+import auctionRoutes from "./auction.routes.js";
+import contactRoutes from "./contact.routes.js";
+import adminRoutes from "./admin.routes.js";
+import cloudinaryRoutes from "./cloudinary.routes.js";
+import paymentRoutes from "./payment.routes.js";
+import notificationRoutes from "./notification.routes.js";
+
+export {
+  authRoutes,
+  userRoutes,
+  auctionRoutes,
+  contactRoutes,
+  adminRoutes,
+  cloudinaryRoutes,
+  paymentRoutes,
+  notificationRoutes
+};
