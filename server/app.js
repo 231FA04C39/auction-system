@@ -78,10 +78,16 @@ if (process.env.NODE_ENV === "production") {
   const __filename = fileURLToPath(import.meta.url);
   const __dirname = path.dirname(__filename);
   
-  app.use(express.static(path.join(__dirname, "../client/dist")));
+  const clientPath = path.resolve(__dirname, "../client/dist");
+  
+  app.use(express.static(clientPath));
 
   app.use((req, res) => {
-    res.sendFile(path.resolve(__dirname, "../client/dist", "index.html"));
+    res.sendFile(path.join(clientPath, "index.html"), (err) => {
+      if (err) {
+        res.status(500).send(`Server Error: ${err.message}. Looked for index.html at ${clientPath}. __dirname: ${__dirname}, cwd: ${process.cwd()}`);
+      }
+    });
   });
 }
 
