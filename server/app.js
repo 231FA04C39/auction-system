@@ -26,11 +26,13 @@ export const app = express();
 app.use(
   cors({
     origin: function (origin, callback) {
-      const allowedOrigins = env.origin ? env.origin.split(',') : [];
-      if (!origin || origin.startsWith('http://localhost') || origin.startsWith('http://127.0.0.1') || allowedOrigins.includes(origin)) {
+      if (!origin) return callback(null, true);
+      const allowedOrigins = env.origin ? env.origin.split(',').map(o => o.trim().replace(/\/$/, '')) : [];
+      if (origin.startsWith('http://localhost') || origin.startsWith('http://127.0.0.1') || allowedOrigins.includes(origin)) {
         callback(null, true);
       } else {
-        callback(new Error('Not allowed by CORS'));
+        console.warn(`CORS blocked: ${origin}. Allowed: ${allowedOrigins}`);
+        callback(null, false);
       }
     },
     methods: ["GET", "POST", "PUT", "DELETE", "PATCH"],
