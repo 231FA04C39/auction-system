@@ -10,9 +10,9 @@ export const setCookie = (res, token) => {
     maxAge: 7 * 24 * 60 * 60 * 1000,
   };
 
-  if (isProduction && env.cookie_domain) {
-    cookieOptions.domain = env.cookie_domain;
-  }
+  // if (isProduction && env.cookie_domain) {
+  //   cookieOptions.domain = env.cookie_domain;
+  // }
 
   return res.cookie("auth_token", token, cookieOptions);
 };
@@ -24,9 +24,9 @@ export const clearCookie = (res) => {
     sameSite: isProduction ? "none" : "lax",
   };
 
-  if (isProduction && env.cookie_domain) {
-    cookieOptions.domain = env.cookie_domain;
-  }
+  // if (isProduction && env.cookie_domain) {
+  //   cookieOptions.domain = env.cookie_domain;
+  // }
 
   return res.clearCookie("auth_token", cookieOptions);
 };
