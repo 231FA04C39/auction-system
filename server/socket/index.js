@@ -9,7 +9,7 @@ let io;
 export const initSocket = (server) => {
   io = new Server(server, {
     cors: {
-      origin: env.origin,
+      origin: env.origin ? env.origin.split(',') : "http://localhost:5173",
       methods: ["GET", "POST"],
       credentials: true,
     },

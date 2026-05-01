@@ -1,0 +1,10 @@
+{
+  "name": "online-auction-system-deployment",
+  "version": "1.0.0",
+  "description": "Root package for single-service deployment",
+  "scripts": {
+    "install-all": "npm install --prefix client && npm install --prefix server",
+    "build": "npm run install-all && npm run build --prefix client",
+    "start": "npm start --prefix server"
+  }
+}

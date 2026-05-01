@@ -2,6 +2,7 @@ import express from "express";
 import compression from "compression";
 import cors from "cors";
 import cookieParser from "cookie-parser";
+import path from "path";
 import { env } from "./config/env.config.js";
 import {
   authRoutes,
@@ -23,10 +24,11 @@ export const app = express();
 app.use(
   cors({
     origin: function (origin, callback) {
-      if (!origin || origin.startsWith('http://localhost') || origin.startsWith('http://127.0.0.1')) {
+      const allowedOrigins = env.origin ? env.origin.split(',') : [];
+      if (!origin || origin.startsWith('http://localhost') || origin.startsWith('http://127.0.0.1') || allowedOrigins.includes(origin)) {
         callback(null, true);
       } else {
-        callback(null, env.origin);
+        callback(new Error('Not allowed by CORS'));
       }
     },
     methods: ["GET", "POST", "PUT", "DELETE", "PATCH"],
@@ -72,5 +74,14 @@ app.use("/api/admin", adminRoutes);
 app.use("/api/upload", cloudinaryRoutes);
 app.use("/api/payment", paymentRoutes);
 app.use("/api/notifications", notificationRoutes);
+
+if (process.env.NODE_ENV === "production") {
+  const __dirname = path.resolve();
+  app.use(express.static(path.join(__dirname, "../client/dist")));
+
+  app.get("*", (req, res) => {
+    res.sendFile(path.resolve(__dirname, "../client/dist", "index.html"));
+  });
+}
 
 export default app; // Exporting default app for serverless deployment
