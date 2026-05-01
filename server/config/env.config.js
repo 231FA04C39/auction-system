@@ -22,9 +22,6 @@ export const env = {
 const requiredVars = ["mongo_uri", "jwt_secret", "origin"];
 for (const key of requiredVars) {
   if (!env[key]) {
-    console.error(
-      `FATAL: Missing required environment variable: ${key.toUpperCase()}`,
-    );
-    process.exit(1);
+    throw new Error(`FATAL: Missing required environment variable: ${key.toUpperCase()}`);
   }
 }
