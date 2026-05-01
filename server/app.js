@@ -4,6 +4,7 @@ import cors from "cors";
 import cookieParser from "cookie-parser";
 import path from "path";
 import { fileURLToPath } from "url";
+import fs from "fs";
 import { env } from "./config/env.config.js";
 import {
   authRoutes,
@@ -80,6 +81,17 @@ if (process.env.NODE_ENV === "production") {
   
   const clientPath = path.resolve(__dirname, "../client/dist");
   
+  app.get("/debug-fs", (req, res) => {
+    try {
+      const clientDir = fs.readdirSync(path.resolve(__dirname, "../client"));
+      const distDir = fs.existsSync(clientPath) ? fs.readdirSync(clientPath) : "dist does not exist";
+      const assetsDir = fs.existsSync(path.join(clientPath, "assets")) ? fs.readdirSync(path.join(clientPath, "assets")) : "assets does not exist";
+      res.json({ clientDir, distDir, assetsDir, __dirname, cwd: process.cwd() });
+    } catch (err) {
+      res.status(500).json({ error: err.message, stack: err.stack });
+    }
+  });
+
   app.use(express.static(clientPath));
 
   app.use((req, res) => {
