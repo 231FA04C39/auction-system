@@ -64,8 +64,6 @@ cron.schedule("0 0 * * *", async () => { // Runs at midnight every day
   }
 });
 
-startAuctionCron();
-
 app.use("/api/auth", authRoutes);
 app.use("/api/user", userRoutes);
 app.use("/api/auction", auctionRoutes);

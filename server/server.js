@@ -3,6 +3,7 @@ import { app } from "./app.js";
 import { env } from "./config/env.config.js";
 import { connectDB, disconnectDB } from "./config/db.config.js";
 import { initSocket } from "./socket/index.js";
+import { startAuctionCron } from "./jobs/auctionCron.js";
 
 const PORT = env.port;
 
@@ -12,6 +13,7 @@ let isShuttingDown = false;
 const startServer = async () => {
   try {
     await connectDB();
+    startAuctionCron();
     server = http.createServer(app);
     initSocket(server);
 
