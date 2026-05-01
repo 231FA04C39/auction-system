@@ -3,6 +3,7 @@ import compression from "compression";
 import cors from "cors";
 import cookieParser from "cookie-parser";
 import path from "path";
+import { fileURLToPath } from "url";
 import { env } from "./config/env.config.js";
 import {
   authRoutes,
@@ -74,7 +75,9 @@ app.use("/api/payment", paymentRoutes);
 app.use("/api/notifications", notificationRoutes);
 
 if (process.env.NODE_ENV === "production") {
-  const __dirname = path.resolve();
+  const __filename = fileURLToPath(import.meta.url);
+  const __dirname = path.dirname(__filename);
+  
   app.use(express.static(path.join(__dirname, "../client/dist")));
 
   app.use((req, res) => {
