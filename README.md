@@ -78,11 +78,4 @@ This project demonstrates full-stack web development concepts including authenti
 - VS Code
 - Render Deployment
 
----
 
-# ⚙️ Installation & Setup
-
-## 1️⃣ Clone Repository
-
-```bash
-git clone https://github.com/your-username/online-auction-system.git
